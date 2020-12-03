@@ -1,6 +1,17 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 const Navbar = () => {
+
+    const user = localStorage.getItem('userName');
+
+    const history = useHistory;
+
+    const handleLogOut = () => {
+        localStorage.clear();
+        history.push('/');
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -17,20 +28,12 @@ const Navbar = () => {
                         <li className="nav-item">
                             <a className="nav-link" href="#">Link</a>
                         </li>
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a className="dropdown-item" href="#">Action</a>
-                                <a className="dropdown-item" href="#">Another action</a>
-                                <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="#">Something else here</a>
-                            </div>
+                        {user ? <li className="nav-item ml-5 mr-5">
+                            <button onClick={handleLogOut} className="custom-btn">Logout</button>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link disabled" href="#">Disabled</a>
-                        </li>
+                            : <li className="nav-item ml-5 mr-5">
+                                <a href="/login"><button onClick={handleLogOut} className="custom-btn">Login</button></a>
+                            </li>}
                     </ul>
                 </div>
             </nav>

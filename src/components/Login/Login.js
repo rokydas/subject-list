@@ -1,10 +1,24 @@
 import React from 'react';
 import { useState } from 'react';
 import './Login.css';
+import firebase from "firebase/app";
+import "firebase/auth";
+import { firebaseConfig } from './firebase.config';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+
+    const history = useHistory;
+
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+    const githubProvider = new firebase.auth.GithubAuthProvider();
 
     const [isNewUser, setIsNewUser] = useState(true);
+    const [user, setUser] = useState({});
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleBlur = () => {
 
@@ -18,20 +32,46 @@ const Login = () => {
 
     }
 
+    const successLogin = (loggedInUser) => {
+        localStorage.setItem('userName', loggedInUser.displayName);
+        setUser(loggedInUser);
+        history.push('/');
+    }
+
+    const errorLogin = (message) => {
+        setErrorMessage(message);
+    }
+
     const handleGoogleLogin = () => {
-
+        firebase.auth().signInWithPopup(googleProvider)
+            .then(function (result) {
+                const token = result.credential.accessToken;
+                const user = result.user;
+                console.log(token, user);
+                successLogin(user);
+            })
+            .catch(function (error) {
+                const errorMessage = error.message;
+                errorLogin(errorMessage);
+            });
     }
 
-    const handleFbLogin = () => {
-
+    const handleGithubLogin = () => {
+        firebase.auth().signInWithPopup(githubProvider)
+            .then((result) => {
+                const user = result.user;
+                successLogin(user);
+            }).catch((error) => {
+                const errorMessage = error.message;
+                errorLogin(errorMessage);
+            });
     }
-
-    const fbLogo = 6;
 
     return (
         <div className="login-container text-center mt-5">
             <div>
                 {isNewUser ? <h1>Create an account</h1> : <h1>Login</h1>}
+                <h3>{user.displayName}</h3>
                 <br />
                 <form>
                     {isNewUser && <div className="form-group">
@@ -72,11 +112,12 @@ const Login = () => {
             </div>
 
             <div className="d-flex justify-content-center mb-5">
-                <button className="login-btn text-left" onClick={handleFbLogin}>
+                <button className="login-btn text-left" onClick={handleGithubLogin}>
                     <img src="https://img.icons8.com/fluent/32/000000/github.png" />
                     <b className="pr-5">Continue with Github</b>
                 </button>
             </div>
+            <h3 className="text-danger">{errorMessage}</h3>
         </div>
     );
 };
