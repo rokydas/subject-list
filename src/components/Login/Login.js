@@ -4,14 +4,15 @@ import './Login.css';
 import firebase from "firebase/app";
 import "firebase/auth";
 import { firebaseConfig } from './firebase.config';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Login = () => {
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
 
-    const history = useHistory;
+    const history = useHistory();
+    const location = useLocation();
 
     const googleProvider = new firebase.auth.GoogleAuthProvider();
     const githubProvider = new firebase.auth.GithubAuthProvider();
@@ -20,22 +21,64 @@ const Login = () => {
     const [user, setUser] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleBlur = () => {
+    let { from } = location.state || { from: { pathname: "/" } };
 
+    const handleBlur = (e) => {
+        const newUser = { ...user };
+        newUser[e.target.name] = e.target.value;
+        setUser(newUser);
     }
 
-    const handleSignup = () => {
+    const handleSignup = (e) => {
+        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+            .then((createdUser) => {
+                localStorage.setItem('userName', user.email);
+                history.replace(from);
+                history.go(0);
+            })
+            .catch((error) => {
+                // var errorCode = error.code;
+                // var errorMessage = error.message;
+                // history.replace(from);
+                // history.go(0);
+                // console.log(errorCode, errorMessage);
+            });
 
+
+
+        // firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        //     .then(res => {
+        //         // setSignedInUser(user);
+        //         // const name = user.firstName + ' ' + user.lastName;
+        //         // const newUser = { ...user };
+        //         // newUser.displayName = name;
+        //         // setSignedInUser(newUser);
+        //         // updateUserProfile(name);
+        //         // history.replace(from);
+        //         console.log('Login successful');
+        //         localStorage.setItem('userName', user.email);
+        //         history.replace(from);
+        //         history.go(0);
+
+        //     })
+        //     .catch(function (error) {
+        //         const errorMessage = error.message;
+        //         // setErrorMessage(errorMessage);
+        //         console.log('Login unsuccessful');
+        //         localStorage.setItem('userName', user.email);
+        //         history.replace(from);
+        //         history.go(0);
+        //     });
     }
 
     const handleLogin = () => {
 
     }
 
-    const successLogin = (loggedInUser) => {
-        localStorage.setItem('userName', loggedInUser.displayName);
-        setUser(loggedInUser);
-        history.push('/');
+    const successLogin = (name) => {
+        localStorage.setItem('userName', name);
+        history.replace(from);
+        history.go(0);
     }
 
     const errorLogin = (message) => {
@@ -48,7 +91,7 @@ const Login = () => {
                 const token = result.credential.accessToken;
                 const user = result.user;
                 console.log(token, user);
-                successLogin(user);
+                successLogin(user.displayName);
             })
             .catch(function (error) {
                 const errorMessage = error.message;
@@ -60,7 +103,7 @@ const Login = () => {
         firebase.auth().signInWithPopup(githubProvider)
             .then((result) => {
                 const user = result.user;
-                successLogin(user);
+                successLogin(user.displayName);
             }).catch((error) => {
                 const errorMessage = error.message;
                 errorLogin(errorMessage);
@@ -71,7 +114,6 @@ const Login = () => {
         <div className="login-container text-center mt-5">
             <div>
                 {isNewUser ? <h1>Create an account</h1> : <h1>Login</h1>}
-                <h3>{user.displayName}</h3>
                 <br />
                 <form>
                     {isNewUser && <div className="form-group">

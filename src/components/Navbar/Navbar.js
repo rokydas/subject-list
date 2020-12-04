@@ -5,11 +5,12 @@ const Navbar = () => {
 
     const user = localStorage.getItem('userName');
 
-    const history = useHistory;
+    const history = useHistory();
 
     const handleLogOut = () => {
         localStorage.clear();
-        history.push('/');
+        history.replace('/');
+        history.go(0);
     }
 
     return (
