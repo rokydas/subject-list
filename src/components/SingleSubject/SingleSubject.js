@@ -14,7 +14,7 @@ const SingleSubject = ({ subject }) => {
                 <h5>Topic: {topic}</h5>
                 <h5>Type: {type}</h5>
                 <h5>Class: {classNo}</h5>
-                <button className="custom-btn">See Details</button>
+                <a href={`/details/${id}`}><button className="custom-btn">See Details</button></a>
             </div>
         </div>
     );
