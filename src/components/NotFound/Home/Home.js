@@ -1,10 +1,12 @@
 import React from 'react';
-import Header from '../../Header/Header';
+import AllSubjects from '../../AllSubjects/AllSubjects';
+import IntroAndSearch from '../../IntroAndSearch/IntroAndSearch';
 
 const Home = () => {
     return (
         <div>
-            <Header />
+            <IntroAndSearch />
+            <AllSubjects />
         </div>
     );
 };
