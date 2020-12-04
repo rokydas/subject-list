@@ -67,7 +67,7 @@ const InsertSubject = () => {
         formData.append('topic', topic);
         formData.append('type', type);
 
-        fetch('http://localhost:5000/insert', {
+        fetch('https://subject-list.herokuapp.com/insert', {
             method: 'POST',
             body: formData
         })

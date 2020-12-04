@@ -9,7 +9,7 @@ const AllSubjects = () => {
     const [subjects, setSubjects] = useContext(subjectContext);
 
     useEffect(() => {
-        fetch('http://localhost:5000/subjects')
+        fetch('https://subject-list.herokuapp.com/subjects')
             .then(res => res.json())
             .then(data => {
                 setSubjects(data);

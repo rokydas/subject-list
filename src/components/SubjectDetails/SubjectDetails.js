@@ -9,7 +9,7 @@ const SubjectDetails = () => {
     const [subjects, setSubjects] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/subjects')
+        fetch('https://subject-list.herokuapp.com/subjects')
             .then(res => res.json())
             .then(data => {
                 setSubjects(data);
