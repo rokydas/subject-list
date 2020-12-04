@@ -76,7 +76,7 @@ const Login = () => {
         firebase.auth().signInWithPopup(githubProvider)
             .then((result) => {
                 const user = result.user;
-                successLogin(user.displayName, user.email);
+                successLogin(user.email, user.email);
             }).catch((error) => {
                 const errorMessage = error.message;
                 errorLogin(errorMessage);

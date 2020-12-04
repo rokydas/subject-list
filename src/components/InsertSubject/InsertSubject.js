@@ -59,25 +59,32 @@ const InsertSubject = () => {
     const handleInsertSubject = (event) => {
         event.preventDefault();
 
-        const formData = new FormData();
-        formData.append('file', img);
-        formData.append('classNo', classNo);
-        formData.append('subjectName', subjectName);
-        formData.append('subjectCode', subjectCode);
-        formData.append('topic', topic);
-        formData.append('type', type);
+        const isAdmin = localStorage.getItem('isAdmin');
+        if (isAdmin == 'false') {
+            alert('You are not admin. So, you cannot add subject.');
+            history.replace('/');
+            history.go(0);
+        }
+        else {
+            const formData = new FormData();
+            formData.append('file', img);
+            formData.append('classNo', classNo);
+            formData.append('subjectName', subjectName);
+            formData.append('subjectCode', subjectCode);
+            formData.append('topic', topic);
+            formData.append('type', type);
 
-        fetch('https://subject-list.herokuapp.com/insert', {
-            method: 'POST',
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                alert('Your subject is inserted successfully');
-                history.replace('/');
-                history.go(0);
-            });
-
+            fetch('https://subject-list.herokuapp.com/insert', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert('Your subject is inserted successfully');
+                    history.replace('/');
+                    history.go(0);
+                });
+        }
     }
 
     return (

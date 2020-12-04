@@ -1,28 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { subjectContext } from '../../App';
+import { keywordContext, subjectContext } from '../../App';
 import fakeSubjects from '../fakeSubjects/fakeSubjects';
 import SingleSubject from '../SingleSubject/SingleSubject';
 import './AllSubjects.css';
 
 const AllSubjects = () => {
 
-    const [subjects, setSubjects] = useContext(subjectContext);
+    const [keyword, setKeyword] = useContext(keywordContext);
+
+    const [subjects, setSubjects] = useState([]);
 
     useEffect(() => {
         fetch('https://subject-list.herokuapp.com/subjects')
             .then(res => res.json())
             .then(data => {
                 setSubjects(data);
-                console.log(subjects);
             });
     }, [])
+
+    const searchedSubjects = subjects.filter(sb => sb.topic.includes(keyword))
 
     return (
         <div className="custom-container">
             {subjects.length > 0 ?
                 <div className="row">
                 {
-                    subjects.map(sb => <SingleSubject key={sb._id} subject={sb} />)
+                    searchedSubjects.map(sb => <SingleSubject key={sb._id} subject={sb} />)
                 }
             </div>
                 : <div className="text-center">

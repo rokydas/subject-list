@@ -29,6 +29,9 @@ const Navbar = () => {
                         <li className="nav-item active ml-5">
                             <a className="nav-link" href="/insert">Insert</a>
                         </li>
+                        <li className="nav-item active ml-5">
+                            {user && <h4>{user}</h4>}
+                        </li>
                         {user ? <li className="nav-item ml-5 mr-5">
                             <button onClick={handleLogOut} className="custom-btn">Logout</button>
                         </li>

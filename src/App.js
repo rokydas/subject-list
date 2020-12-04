@@ -8,20 +8,20 @@ import Login from './components/Login/Login';
 import Home from './components/NotFound/Home/Home';
 import NotFound from './components/NotFound/NotFound';
 import SubjectDetails from './components/SubjectDetails/SubjectDetails';
-import NewSubject from './components/NewSubject/NewSubject';
 import Navbar from './components/Navbar/Navbar';
 import InsertSubject from './components/InsertSubject/InsertSubject';
 import { createContext, useState } from 'react';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
-export const subjectContext = createContext();
+export const keywordContext = createContext();
 
 function App() {
 
-  const [subjects, setSubjects] = useState([]);
+  const [keyword, setKeyword] = useState('');
 
   return (
     <div>
-      <subjectContext.Provider value={[subjects, setSubjects]}>
+      <keywordContext.Provider value={[keyword, setKeyword]}>
         <Router>
           <Navbar />
           <Switch>
@@ -31,21 +31,18 @@ function App() {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/details/:id">
+            <PrivateRoute path="/details/:id">
               <SubjectDetails />
-            </Route>
-            <Route path="/new">
-              <NewSubject />
-            </Route>
-            <Route path="/insert">
+            </PrivateRoute>
+            <PrivateRoute path="/insert">
               <InsertSubject />
-            </Route>
+            </PrivateRoute>
             <Route path="*">
               <NotFound />
             </Route>
           </Switch>
         </Router>
-      </subjectContext.Provider>
+      </keywordContext.Provider>
     </div>
   );
 }
