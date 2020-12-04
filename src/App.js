@@ -10,6 +10,7 @@ import NotFound from './components/NotFound/NotFound';
 import SubjectDetails from './components/SubjectDetails/SubjectDetails';
 import NewSubject from './components/NewSubject/NewSubject';
 import Navbar from './components/Navbar/Navbar';
+import InsertSubject from './components/InsertSubject/InsertSubject';
 
 function App() {
   return (
@@ -28,6 +29,9 @@ function App() {
           </Route>
           <Route path="/new">
             <NewSubject />
+          </Route>
+          <Route path="/insert">
+            <InsertSubject />
           </Route>
           <Route path="*">
             <NotFound />
