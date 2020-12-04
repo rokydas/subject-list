@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const InsertSubject = () => {
 
-    // class , subject, code, topic, type, img
+    const history = useHistory();
 
     const classes = useStyles();
     const [classNo, setClassNo] = useState(6);
@@ -24,7 +25,12 @@ const InsertSubject = () => {
     const [subjectCode, setSubjectCode] = useState('eng');
     const [type, setType] = useState(1);
     const [topic, setTopic] = useState('');
-    // const [img, setImg] = useState('');
+    const [img, setImg] = useState('');
+
+    const handleImgChange = (e) => {
+        const newImg = e.target.files[0];
+        setImg(newImg);
+    }
 
     const handleBlur = (e) => {
         setTopic(e.target.value);
@@ -50,22 +56,46 @@ const InsertSubject = () => {
         console.log(type);
     };
 
+    const handleInsertSubject = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData();
+        formData.append('file', img);
+        formData.append('classNo', classNo);
+        formData.append('subjectName', subjectName);
+        formData.append('subjectCode', subjectCode);
+        formData.append('topic', topic);
+        formData.append('type', type);
+
+        fetch('http://localhost:5000/insert', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert('Your subject is inserted successfully');
+                history.replace('/');
+                history.go(0);
+            });
+
+    }
+
     return (
         <div style={{ width: '60%', margin: '0 auto' }}>
             <div className="text-center mt-5 mb-5">
                 <h1>You are an Admin or an Employee</h1>
                 <h3>Insert new subject data</h3>
             </div>
-            <form>
+            <form onSubmit={handleInsertSubject}>
                 <div className="row">
                     <div className="col-md-6">
                         <div className="form-group">
-                            <input onBlur={handleBlur} type="text" className="form-control" placeholder="Enter Topic" required/>
+                            <input onBlur={handleBlur} type="text" className="form-control" placeholder="Enter Topic" required />
                         </div>
                     </div>
                     <div className="col-md-6">
                         <div className="form-group">
-                            <input className="form-control" type="file" required/>
+                            <input onChange={handleImgChange} className="form-control" type="file" required />
                         </div>
                     </div>
                 </div>
