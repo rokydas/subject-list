@@ -8,7 +8,7 @@ const SingleSubject = ({ subject }) => {
     return (
         <div className="col-md-4  p-3 text-center">
             <div className="single-subject p-5">
-                <img width="300px" src={img} alt="subject-image" /><br/><br/>
+                <img width="300px" src={img} alt="subject" /><br/><br/>
                 <h3>Subject Name: {subjectName}</h3>
                 <h4>Subject Code: {subjectCode}</h4>
                 <h5>Topic: {topic}</h5>

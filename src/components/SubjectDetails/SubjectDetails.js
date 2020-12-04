@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import fakeSubjects from '../fakeSubjects/fakeSubjects';
+import './SubjectDetails.css';
 
 const SubjectDetails = () => {
 
@@ -8,9 +9,28 @@ const SubjectDetails = () => {
 
     const selectedSubject = fakeSubjects.find(sb => sb.id === Number(id));
 
+    const { classNo, subjectName, subjectCode, topic, type, img } = selectedSubject;
+
     return (
-        <div>
-            {selectedSubject.subjectName}
+        <div style={{ width: '70%', margin: '0 auto' }} className="mt-5 pt-5">
+            <div className="row">
+                <div className="col-md-6 d-flex justify-content-center">
+                    <div className="p-5">
+                        <img width="500px" src={img} alt="subject" />
+                    </div>
+                </div>
+                <div className="col-md-6 d-flex justify-content-center">
+                    <div className="p-5 details">
+                        <h3>Subject Name: {subjectName}</h3>
+                        <h4>Subject Code: {subjectCode}</h4>
+                        <h5>Topic: {topic}</h5>
+                        <h5>Type: {type}</h5>
+                        <h5>Class: {classNo}</h5><br />
+                        <button className="custom-btn mr-5">Update</button>
+                        <button className="custom-btn">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

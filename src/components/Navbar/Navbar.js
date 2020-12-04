@@ -24,10 +24,10 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item active">
-                            <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
+                            <a className="nav-link" href="/">Home</a>
                         </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">Link</a>
+                        <li className="nav-item active ml-5">
+                            <a className="nav-link" href="/insert">Insert</a>
                         </li>
                         {user ? <li className="nav-item ml-5 mr-5">
                             <button onClick={handleLogOut} className="custom-btn">Logout</button>

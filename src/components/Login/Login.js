@@ -148,14 +148,14 @@ const Login = () => {
             <br />
             <div className="d-flex justify-content-center">
                 <button className="login-btn text-left" onClick={handleGoogleLogin}>
-                    <img width="30px" src="https://img.icons8.com/color/48/000000/google-logo.png" />
+                    <img width="30px" src="https://img.icons8.com/color/48/000000/google-logo.png" alt="google icon"/>
                     <b className="pr-5">Continue with Google</b>
                 </button><br />
             </div>
 
             <div className="d-flex justify-content-center mb-5">
                 <button className="login-btn text-left" onClick={handleGithubLogin}>
-                    <img src="https://img.icons8.com/fluent/32/000000/github.png" />
+                    <img src="https://img.icons8.com/fluent/32/000000/github.png" alt="github icon"/>
                     <b className="pr-5">Continue with Github</b>
                 </button>
             </div>
