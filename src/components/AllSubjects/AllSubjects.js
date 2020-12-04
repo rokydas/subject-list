@@ -19,11 +19,16 @@ const AllSubjects = () => {
 
     return (
         <div className="custom-container">
-            <div className="row">
+            {subjects.length > 0 ?
+                <div className="row">
                 {
                     subjects.map(sb => <SingleSubject key={sb._id} subject={sb} />)
                 }
             </div>
+                : <div className="text-center">
+                    <img src="https://i.pinimg.com/originals/78/e8/26/78e826ca1b9351214dfdd5e47f7e2024.gif" alt="Loading" />
+                </div>    
+        }
         </div>
     );
 };
